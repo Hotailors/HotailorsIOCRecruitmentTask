@@ -1,11 +1,13 @@
 import "reflect-metadata";
-import {Container} from "inversify";
-import {COMMON_TYPES} from "./commonTypes";
+import axios from "axios";
+import { Container } from "inversify";
 
-import {Logger} from "../commonServices/logger";
-import {ILogger} from "../commonServices/iLogger";
-import { IFunctionService } from "../HttpTrigger/services/IFunctionService";
-import { FunctionService } from "../HttpTrigger/services/FunctionService";
+import { COMMON_TYPES } from "./commonTypes";
+import { Logger } from "../commonServices/logger";
+import { ILogger } from "../commonServices/iLogger";
+import { IAxios } from "../commonServices/IAxios";
+import { IHttpService } from "../HttpTrigger/services/IHttpService";
+import { HttpService } from "../HttpTrigger/services/HttpService";
 
 const getContainer: (() => Container) = (): Container => {
     const container: Container = new Container();
@@ -16,8 +18,12 @@ const getContainer: (() => Container) = (): Container => {
         .inSingletonScope();
     
     container
-        .bind<IFunctionService<any>>(COMMON_TYPES.IFunctionService)
-        .to(FunctionService);
+        .bind<IAxios>(COMMON_TYPES.IAxios)
+        .toConstantValue(axios);
+
+    container
+        .bind<IHttpService>(COMMON_TYPES.IHttpService)
+        .to(HttpService);
 
     return container;
 };
