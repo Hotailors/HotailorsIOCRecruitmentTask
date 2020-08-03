@@ -5,9 +5,11 @@ import { Container } from "inversify";
 import { COMMON_TYPES } from "./commonTypes";
 import { Logger } from "../commonServices/logger";
 import { ILogger } from "../commonServices/iLogger";
-import { IAxios } from "../commonServices/IAxios";
+import { IAxios } from "../HttpTrigger/interfaces/IAxios";
 import { IHttpService } from "../HttpTrigger/services/IHttpService";
 import { HttpService } from "../HttpTrigger/services/HttpService";
+import { IPokemonService } from "../HttpTrigger/services/IPokemonService";
+import { PokemonService } from "../HttpTrigger/services/PokemonService";
 
 const getContainer: (() => Container) = (): Container => {
     const container: Container = new Container();
@@ -24,6 +26,10 @@ const getContainer: (() => Container) = (): Container => {
     container
         .bind<IHttpService>(COMMON_TYPES.IHttpService)
         .to(HttpService);
+
+    container
+        .bind<IPokemonService>(COMMON_TYPES.IPokemonService)
+        .to(PokemonService);
 
     return container;
 };

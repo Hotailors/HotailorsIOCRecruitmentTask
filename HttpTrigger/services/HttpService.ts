@@ -3,8 +3,8 @@ import { AxiosInstance, AxiosRequestConfig } from "axios";
 
 import { IHttpService } from "./IHttpService";
 import { POKE_API_URL } from "../constants";
+import { IAxios } from "../interfaces/IAxios";
 import { COMMON_TYPES } from "../../ioc/commonTypes";
-import { IAxios } from "../../commonServices/IAxios";
 
 @injectable()
 export class HttpService implements IHttpService {
