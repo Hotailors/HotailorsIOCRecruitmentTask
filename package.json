@@ -16,8 +16,11 @@
     "lint:rebuild:rules": "tsc ./tslint/rules/underscorePrivatesRule.ts --lib \"es6\" && tsc ./tslint/rules/uppercaseStaticReadonlyRule.ts --lib \"es6\""
   },
   "dependencies": {
+    "axios": "^0.20.0",
     "azure-storage": "^2.10.2",
     "inversify": "^5.0.1",
+    "joi": "^17.2.1",
+    "query-string": "^6.13.5",
     "reflect-metadata": "^0.1.13"
   },
   "devDependencies": {

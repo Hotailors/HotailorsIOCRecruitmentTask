@@ -1,17 +1,39 @@
-import { inject, injectable } from "inversify";
-import { IFunctionService } from "./IFunctionService";
+import {id, inject, injectable} from "inversify";
+import { IFunctionService } from "./pokemonsServices/IFunctionService";
 import { COMMON_TYPES } from "../../ioc/commonTypes";
 import { ILogger } from "../../commonServices/iLogger";
+import {IResponseInterface} from "../../commonServices/networkServices/INetworkClientInterface";
+
+export interface IPokemonQueryInterface {
+    id: string;
+    type: string;
+}
+
+export interface IPokemonapiTypeInterface {
+    type: {
+        name: string;
+    };
+}
+
+export interface IPokemonInterface {
+    id: number;
+    name: string;
+    types: IPokemonapiTypeInterface[];
+}
 
 @injectable()
-export class FunctionService implements IFunctionService<any> {
+export abstract class FunctionService implements IFunctionService<any> {
+    public url: string;
+    public ids: number[];
 
     @inject(COMMON_TYPES.ILogger)
-    private readonly _logger: ILogger;
+    protected readonly _logger: ILogger;
 
-    public async processMessageAsync(msg: any): Promise<any> {
-        this._logger.info("Hello world");
-        this._logger.verbose(`${JSON.stringify(msg)}`);
-        return {msg: "success"};
+    abstract async processMessageAsync(query: IPokemonQueryInterface): Promise<any>
+
+    public parseIds(idsList: string, separator?: string): void {
+        this.ids = idsList.split(separator ?? ',').map((val: string) => Number(val));
     }
+
+    abstract async fetchPokemons(): Promise<IPokemonInterface[]>
 }
